@@ -153,7 +153,7 @@ class MovieManager:
 
     def get_random_movie(self):
         """Return a random movie from the database.
-        
+
         Returns:
             tuple: A tuple containing (title, movie_data) or (None, None) if no movies exist.
         """
@@ -205,12 +205,12 @@ class MovieManager:
 
     def filter_movies(self, min_rating, start_year, end_year):
         """Filter movies by rating and/or year range.
-        
+
         Args:
             min_rating (float, optional): Minimum rating threshold.
             start_year (int, optional): Earliest release year.
             end_year (int, optional): Latest release year.
-            
+
         Returns:
             dict: Filtered dictionary of movies.
         """
