@@ -1,51 +1,63 @@
-# My Movies Database
+# 🎬 Movie Database
 
-A comprehensive and feature-rich command-line application for managing a personal movie database.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python Version](https://img.shields.io/badge/python-3.6%2B-blue.svg)](https://www.python.org/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-## Description
+A comprehensive and feature-rich command-line application for managing a personal movie database with OMDb API integration.
 
-This application provides a robust and user-friendly interface to create, manage, and explore a collection of movies. It leverages a JSON file for data persistence and can integrate with the OMDb API to automatically fetch movie details, making data entry quick and accurate.
+## ✨ Features
 
-## Features
+- **Interactive CLI** with colorful, menu-driven interface
+- **OMDb API Integration** for automatic movie data fetching
+- **Advanced Search** with field-specific queries (e.g., `a:Tom Hanks`, `y:2022`)
+- **Filtering** by rating and release year
+- **Statistics** including average/median ratings
+- **Random Movie** picker
+- **Data Persistence** using JSON storage
+- **Pagination** for easy browsing
+- **Sorting** by rating or release year
 
--   **Data Persistence**: All movie data is saved to `movies.json`, and configuration settings (like the API key) are stored in `config.json`.
--   **Interactive CLI**: A colorful, menu-driven interface that is easy to navigate.
--   **OMDb API Integration**:
-    -   Automatically fetch detailed movie information (year, rating, plot, actors) by searching for a title online.
-    -   This feature is optional and can be enabled by setting an OMDb API key in the Settings menu.
--   **Advanced Search & Filtering**:
-    -   A powerful search function that supports "bang" commands to target specific fields (e.g., `a:Tom Hanks`, `y:2022`).
-    -   Flexible filtering to find movies within a specific rating and/or year range.
--   **Comprehensive Movie Management**: Add, update, and delete movies with ease.
--   **Rich Display Options**:
-    -   Pagination for easy browsing of large movie lists.
-    -   Clean, card-like format for displaying movie details.
-    -   Sorting by rating or release year.
--   **Statistics & Fun**:
-    -   View aggregate statistics like average/median ratings.
-    -   Get a random movie recommendation from your database.
--   **Robustness**: Gracefully handles user interrupts (Ctrl+C) and missing optional dependencies.
+## 🚀 Installation
 
-## Setup and Installation
-
-1.  **Prerequisites**: Ensure you have Python 3 installed on your system.
-2.  **Clone the repository** (or download the files to a local directory).
-3.  **Install dependencies**: Open a terminal in the project directory and run the following command to install the required `requests` library:
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-## Usage
-
-To start the application, run the following command in your terminal from the project's root directory:
+### From PyPI (Recommended)
 
 ```bash
-python movies.py
+pip install moviedatabase
 ```
 
-You will be greeted with the main menu, from which you can navigate to all the application's features.
+### From Source
 
-## Configuration
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/DatMayo/MovieDatabse.git
+   cd MovieDatabse
+   ```
+
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## 🛠️ Usage
+
+### Basic Usage
+
+```bash
+# Run the application
+python -m moviedatabase
+
+# Or if installed via pip
+moviedb
+```
+
+### Command Line Options
+
+```bash
+python -m moviedatabase --help
+```
+
+## 🔧 Configuration
 
 ### OMDb API Key
 
