@@ -3,6 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python Version](https://img.shields.io/badge/python-3.6%2B-blue.svg)](https://www.python.org/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/DatMayo/MovieDatabse/python-app.yml)
 
 A comprehensive and feature-rich command-line application for managing a personal movie database with OMDb API integration.
 
