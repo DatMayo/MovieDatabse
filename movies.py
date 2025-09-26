@@ -15,16 +15,8 @@ import signal
 import sys
 
 import movie_storage
-from movie_manager import MovieManager
+from movie_manager import MovieManager, REQUESTS_AVAILABLE
 from ui import Colors, UserInterface
-
-try:
-    import requests
-
-    REQUESTS_AVAILABLE = True
-except ImportError:
-    REQUESTS_AVAILABLE = False
-
 
 class App:
     """The main application class that orchestrates the UI and movie management."""

@@ -161,6 +161,48 @@ class MovieManager:
             return None, None
         return random.choice(list(self.movies.items()))
 
+    def _search_by_actor(self, search_term):
+        """Search for movies by actor."""
+        found_movies = []
+        for title, data in self.movies.items():
+            if "actors" in data and any(
+                search_term in actor.lower() for actor in data["actors"]
+            ):
+                found_movies.append((title, data))
+        return found_movies
+
+    def _search_by_year(self, search_year):
+        """Search for movies by year."""
+        found_movies = []
+        try:
+            search_year = int(search_year)
+            for title, data in self.movies.items():
+                if data["year"] == search_year:
+                    found_movies.append((title, data))
+        except ValueError:
+            return None  # Indicates a bad query
+        return found_movies
+
+    def _search_by_rating(self, search_rating):
+        """Search for movies by rating."""
+        found_movies = []
+        try:
+            search_rating = float(search_rating)
+            for title, data in self.movies.items():
+                if data["rating"] == search_rating:
+                    found_movies.append((title, data))
+        except ValueError:
+            return None  # Indicates a bad query
+        return found_movies
+
+    def _search_by_title(self, query_lower):
+        """Search for movies by title."""
+        found_movies = []
+        for title, data in self.movies.items():
+            if query_lower in title.lower():
+                found_movies.append((title, data))
+        return found_movies
+
     def search_movies(self, query):
         """Search for movies based on a query string.
 
@@ -170,38 +212,16 @@ class MovieManager:
         Returns:
             list: A list of tuples containing (title, movie_data) that match the query.
         """
-        found_movies = []
         query_lower = query.lower()
 
         if query_lower.startswith("a:"):
-            search_term = query_lower[2:].strip()
-            for title, data in self.movies.items():
-                if "actors" in data and any(
-                    search_term in actor.lower() for actor in data["actors"]
-                ):
-                    found_movies.append((title, data))
+            return self._search_by_actor(query_lower[2:].strip())
         elif query_lower.startswith("y:"):
-            try:
-                search_year = int(query_lower[2:].strip())
-                for title, data in self.movies.items():
-                    if data["year"] == search_year:
-                        found_movies.append((title, data))
-            except ValueError:
-                return None  # Indicates a bad query
+            return self._search_by_year(query_lower[2:].strip())
         elif query_lower.startswith("r:"):
-            try:
-                search_rating = float(query_lower[2:].strip())
-                for title, data in self.movies.items():
-                    if data["rating"] == search_rating:
-                        found_movies.append((title, data))
-            except ValueError:
-                return None  # Indicates a bad query
+            return self._search_by_rating(query_lower[2:].strip())
         else:
-            for title, data in self.movies.items():
-                if query_lower in title.lower():
-                    found_movies.append((title, data))
-
-        return found_movies
+            return self._search_by_title(query_lower)
 
     def filter_movies(self, min_rating, start_year, end_year):
         """Filter movies by rating and/or year range.
