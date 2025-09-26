@@ -18,6 +18,7 @@ import movie_storage
 from movie_manager import MovieManager, REQUESTS_AVAILABLE
 from ui import Colors, UserInterface
 
+
 class App:
     """The main application class that orchestrates the UI and movie management."""
 
@@ -88,11 +89,7 @@ class App:
                 break
             elif choice == "1":
                 self._add_movie_manually()
-            elif (
-                choice == "2"
-                and REQUESTS_AVAILABLE
-                and movie_storage.get_api_key()
-            ):
+            elif choice == "2" and REQUESTS_AVAILABLE and movie_storage.get_api_key():
                 self._add_movie_from_omdb()
             elif choice == "3":
                 self._update_movie()

@@ -65,11 +65,7 @@ class MovieManager:
             actors_str = movie_data.get("Actors", "")
 
             year = int(year_str) if year_str and year_str.isdigit() else 0
-            rating = (
-                float(rating_str)
-                if rating_str and rating_str != "N/A"
-                else 0.0
-            )
+            rating = float(rating_str) if rating_str and rating_str != "N/A" else 0.0
             actors = [actor.strip() for actor in actors_str.split(",")]
 
             self.movies[title] = {
@@ -254,9 +250,7 @@ class MovieManager:
         Returns:
             list: A sorted list of (title, movie_data) tuples.
         """
-        return sorted(
-            self.movies.items(), key=lambda x: x[1][by], reverse=order_desc
-        )
+        return sorted(self.movies.items(), key=lambda x: x[1][by], reverse=order_desc)
 
     def search_movie_online(self, query):
         """Search for a movie online using the OMDb API.

@@ -35,7 +35,9 @@ class UserInterface:
     def display_main_menu(self):
         """Display the main menu options."""
         self.clear_screen()
-        print(f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********{Colors.ENDC}")
+        print(
+            f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********{Colors.ENDC}"
+        )
         print(f"\n{Colors.MENU}Main Menu:{Colors.ENDC}")
         print(f"{Colors.MENU}1.{Colors.ENDC} Display Movies")
         print(f"{Colors.MENU}2.{Colors.ENDC} Edit Movies")
@@ -47,7 +49,9 @@ class UserInterface:
     def display_movies_menu(self):
         """Display the movies submenu options."""
         self.clear_screen()
-        print(f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********{Colors.ENDC}")
+        print(
+            f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********{Colors.ENDC}"
+        )
         print(f"\n{Colors.MENU}Display Movies Menu:{Colors.ENDC}")
         print(f"{Colors.MENU}1.{Colors.ENDC} List all movies")
         print(f"{Colors.MENU}2.{Colors.ENDC} Search movie")
@@ -59,7 +63,9 @@ class UserInterface:
     def display_edit_menu(self):
         """Display the edit submenu options."""
         self.clear_screen()
-        print(f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********{Colors.ENDC}")
+        print(
+            f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********{Colors.ENDC}"
+        )
         print(f"\n{Colors.MENU}Edit Movies Menu:{Colors.ENDC}")
         print(f"{Colors.MENU}1.{Colors.ENDC} Add movie manually")
         if self.requests_available and self.api_key_exists:
@@ -71,7 +77,9 @@ class UserInterface:
     def display_settings_menu(self):
         """Display the settings submenu options."""
         self.clear_screen()
-        print(f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********{Colors.ENDC}")
+        print(
+            f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********{Colors.ENDC}"
+        )
         print(f"\n{Colors.MENU}Settings Menu:{Colors.ENDC}")
         print(f"{Colors.MENU}1.{Colors.ENDC} Set OMDb API Key")
         print(f"{Colors.MENU}2.{Colors.ENDC} View OMDb API Key")
@@ -80,7 +88,9 @@ class UserInterface:
     def display_stats_menu(self):
         """Display the statistics submenu options."""
         self.clear_screen()
-        print(f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********{Colors.ENDC}")
+        print(
+            f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********{Colors.ENDC}"
+        )
         print(f"\n{Colors.MENU}Statistics & Fun Menu:{Colors.ENDC}")
         print(f"{Colors.MENU}1.{Colors.ENDC} Show stats")
         print(f"{Colors.MENU}2.{Colors.ENDC} Random movie")
@@ -154,7 +164,8 @@ class UserInterface:
         while True:
             self.clear_screen()
             self.print_message(
-                f"List of all movies (Page {current_page + 1}/{num_pages}):", Colors.CYAN
+                f"List of all movies (Page {current_page + 1}/{num_pages}):",
+                Colors.CYAN,
             )
             start_index = current_page * page_size
             end_index = start_index + page_size

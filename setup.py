@@ -8,7 +8,9 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="moviedatabase",
-    version=re.search(r'^__version__\s*=\s*"(.*)"', open('__init__.py').read(), re.M).group(1),
+    version=re.search(
+        r'^__version__\s*=\s*"(.*)"', open("__init__.py").read(), re.M
+    ).group(1),
     author="DatMayo",
     author_email="author@example.com",
     description="A movie database management system",
