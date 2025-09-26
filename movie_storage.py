@@ -38,7 +38,7 @@ def get_movies():
     """Retrieve all movies from the database.
 
     Returns:
-        dict: A dictionary containing movie data, or an empty dict if no data exists.
+        dict: A dictionary of movie data, or an empty dict if none exists.
     """
     try:
         with open(MOVIES_FILE, "r") as file:
