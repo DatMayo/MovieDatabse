@@ -1,0 +1,20 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+
+# IDE-specific files
+.idea/
+
+# Local configuration and data
+config.json
+movies.json
+ToTest.md
+
+# Virtual environment
+venv/
+.venv/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
