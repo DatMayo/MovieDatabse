@@ -1,3 +1,5 @@
+"""This module provides functionality for storing and retrieving movie data."""
+
 import json
 import os
 
@@ -7,27 +9,36 @@ _CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 MOVIES_FILE = os.path.join(_CURRENT_DIR, "movies.json")
 CONFIG_FILE = os.path.join(_CURRENT_DIR, "config.json")
 
+
 def get_api_key():
-    """Returns the OMDb API key from the config file."""
+    """Retrieve the OMDb API key from the config file.
+
+    Returns:
+        str: The API key if found, None otherwise.
+    """
     try:
         with open(CONFIG_FILE, "r") as file:
             config = json.load(file)
-            return config.get('api_key')
+            return config.get("api_key")
     except (FileNotFoundError, json.JSONDecodeError):
         return None
 
+
 def save_api_key(api_key):
-    """Saves the OMDb API key to the config file."""
+    """Save the OMDb API key to the config file.
+
+    Args:
+        api_key (str): The API key to save.
+    """
     with open(CONFIG_FILE, "w") as file:
-        json.dump({'api_key': api_key}, file, indent=4)
+        json.dump({"api_key": api_key}, file, indent=4)
+
 
 def get_movies():
-    """
-    Returns a dictionary of dictionaries that
-    contains the movies information in the database.
+    """Retrieve all movies from the database.
 
-    The function loads the information from the JSON
-    file and returns the data.
+    Returns:
+        dict: A dictionary containing movie data, or an empty dict if no data exists.
     """
     try:
         with open(MOVIES_FILE, "r") as file:
@@ -35,19 +46,24 @@ def get_movies():
     except (FileNotFoundError, json.JSONDecodeError):
         return {}
 
+
 def save_movies(movies):
-    """
-    Gets all your movies as an argument and saves them to the JSON file.
+    """Save movies data to the JSON file.
+
+    Args:
+        movies (dict): Dictionary containing movie data to be saved.
     """
     with open(MOVIES_FILE, "w") as file:
         json.dump(movies, file, indent=4)
 
 
 def add_movie(title, year, rating):
-    """
-    Adds a movie to the movies database.
-    Loads the information from the JSON file, add the movie,
-    and saves it. The function doesn't need to validate the input.
+    """Add a movie to the database.
+
+    Args:
+        title (str): The title of the movie.
+        year (int): The release year of the movie.
+        rating (float): The movie's rating.
     """
     movies = get_movies()
     movies[title] = {"rating": rating, "year": year}
@@ -55,10 +71,10 @@ def add_movie(title, year, rating):
 
 
 def delete_movie(title):
-    """
-    Deletes a movie from the movies database.
-    Loads the information from the JSON file, deletes the movie,
-    and saves it. The function doesn't need to validate the input.
+    """Delete a movie from the database.
+
+    Args:
+        title (str): The title of the movie to delete.
     """
     movies = get_movies()
     if title in movies:
@@ -67,14 +83,16 @@ def delete_movie(title):
 
 
 def update_movie(title, field, value):
-    """
-    Updates a specific field of a movie in the database.
-    Loads the information from the JSON file, updates the movie,
-    and saves it. The function doesn't need to validate the input.
+    """Update a specific field of a movie in the database.
+
+    Args:
+        title (str): The current title of the movie.
+        field (str): The field to update ('title', 'year', 'rating', etc.).
+        value: The new value for the specified field.
     """
     movies = get_movies()
     if title in movies:
-        if field == 'title':
+        if field == "title":
             movies[value] = movies.pop(title)
         else:
             movies[title][field] = value
