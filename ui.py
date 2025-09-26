@@ -1,3 +1,5 @@
+"""This module provides the user interface for the movie database application."""
+
 import os
 import textwrap
 
@@ -21,10 +23,10 @@ class Colors:
 
 
 class UserInterface:
-    """Handles all user interface elements, including menus and input/output."""
+    """Handle all user interface elements, including menus and input/output."""
 
     def __init__(self, requests_available, api_key_exists):
-        """Initializes the UserInterface."""
+        """Initialize the UserInterface."""
         self.requests_available = requests_available
         self.api_key_exists = api_key_exists
 
@@ -36,7 +38,8 @@ class UserInterface:
         """Display the main menu options."""
         self.clear_screen()
         print(
-            f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********{Colors.ENDC}"
+            f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********"
+            f"{Colors.ENDC}"
         )
         print(f"\n{Colors.MENU}Main Menu:{Colors.ENDC}")
         print(f"{Colors.MENU}1.{Colors.ENDC} Display Movies")
@@ -50,7 +53,8 @@ class UserInterface:
         """Display the movies submenu options."""
         self.clear_screen()
         print(
-            f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********{Colors.ENDC}"
+            f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********"
+            f"{Colors.ENDC}"
         )
         print(f"\n{Colors.MENU}Display Movies Menu:{Colors.ENDC}")
         print(f"{Colors.MENU}1.{Colors.ENDC} List all movies")
@@ -64,7 +68,8 @@ class UserInterface:
         """Display the edit submenu options."""
         self.clear_screen()
         print(
-            f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********{Colors.ENDC}"
+            f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********"
+            f"{Colors.ENDC}"
         )
         print(f"\n{Colors.MENU}Edit Movies Menu:{Colors.ENDC}")
         print(f"{Colors.MENU}1.{Colors.ENDC} Add movie manually")
@@ -78,7 +83,8 @@ class UserInterface:
         """Display the settings submenu options."""
         self.clear_screen()
         print(
-            f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********{Colors.ENDC}"
+            f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********"
+            f"{Colors.ENDC}"
         )
         print(f"\n{Colors.MENU}Settings Menu:{Colors.ENDC}")
         print(f"{Colors.MENU}1.{Colors.ENDC} Set OMDb API Key")
@@ -89,7 +95,8 @@ class UserInterface:
         """Display the statistics submenu options."""
         self.clear_screen()
         print(
-            f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********{Colors.ENDC}"
+            f"\n{Colors.HEADER}{Colors.BOLD}********** My Movies Database **********"
+            f"{Colors.ENDC}"
         )
         print(f"\n{Colors.MENU}Statistics & Fun Menu:{Colors.ENDC}")
         print(f"{Colors.MENU}1.{Colors.ENDC} Show stats")
@@ -107,7 +114,9 @@ class UserInterface:
                 year = int(self.get_input(prompt))
                 if year > 0:
                     return year
-                self.print_message("Year must be a positive number.", Colors.WARNING)
+                self.print_message(
+                    "Year must be a positive number.", Colors.WARNING
+                )
             except ValueError:
                 self.print_message("Please enter a valid year.", Colors.ERROR)
             except KeyboardInterrupt:
@@ -121,9 +130,13 @@ class UserInterface:
                 rating = float(self.get_input(prompt))
                 if 0 <= rating <= 10:
                     return rating
-                self.print_message("Rating must be between 0 and 10.", Colors.WARNING)
+                self.print_message(
+                    "Rating must be between 0 and 10.", Colors.WARNING
+                )
             except ValueError:
-                self.print_message("Please enter a valid number.", Colors.ERROR)
+                self.print_message(
+                    "Please enter a valid number.", Colors.ERROR
+                )
             except KeyboardInterrupt:
                 print()  # Move to new line after Ctrl+C
                 raise
@@ -140,14 +153,18 @@ class UserInterface:
         """Display a single movie in a card-like format."""
         print(f"\n{Colors.HEADER}{index}. {title}{Colors.ENDC}")
         print(f"   {Colors.BOLD}Year:{Colors.ENDC} {data.get('year', 'N/A')}")
-        print(f"   {Colors.BOLD}Rating:{Colors.ENDC} {data.get('rating', 'N/A'):.1f}")
+        print(
+            f"   {Colors.BOLD}Rating:{Colors.ENDC} {data.get('rating', 'N/A'):.1f}"
+        )
         if "description" in data:
-            wrapped_description = textwrap.wrap(data["description"], width=80)
+            wrapped_description = textwrap.wrap(data["description"], width=70)
             print(f"   {Colors.BOLD}Description:{Colors.ENDC}")
             for line in wrapped_description:
                 print(f"     {line}")
         if "actors" in data:
-            print(f"   {Colors.BOLD}Actors:{Colors.ENDC} {', '.join(data['actors'])}")
+            print(
+                f"   {Colors.BOLD}Actors:{Colors.ENDC} {', '.join(data['actors'])}"
+            )
 
     def display_movie_list(self, movies: dict):
         """Display a list of movies with pagination."""
@@ -181,13 +198,17 @@ class UserInterface:
                 if current_page < num_pages - 1:
                     current_page += 1
                 else:
-                    self.print_message("You are on the last page.", Colors.WARNING)
+                    self.print_message(
+                        "You are on the last page.", Colors.WARNING
+                    )
                     self.press_enter_to_continue()
             elif choice == "p":
                 if current_page > 0:
                     current_page -= 1
                 else:
-                    self.print_message("You are on the first page.", Colors.WARNING)
+                    self.print_message(
+                        "You are on the first page.", Colors.WARNING
+                    )
                     self.press_enter_to_continue()
             elif choice == "q":
                 break

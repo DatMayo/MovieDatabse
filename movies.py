@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-"""
-==============================
-My Movies Database Application
-==============================
+"""Movie Database Application.
 
 This is the main entry point for the My Movies Database application.
 
@@ -20,10 +17,13 @@ from ui import Colors, UserInterface
 
 
 class App:
-    """The main application class that orchestrates the UI and movie management."""
+    """The main application class.
+
+    This class orchestrates the UI and movie management.
+    """
 
     def __init__(self):
-        """Initializes the App."""
+        """Initialize the App."""
         api_key_exists = bool(movie_storage.get_api_key())
         self.ui = UserInterface(REQUESTS_AVAILABLE, api_key_exists)
         self.manager = MovieManager()
@@ -53,7 +53,9 @@ class App:
 
     def _signal_handler(self, sig, frame):
         """Handle keyboard interrupt (Ctrl+C) gracefully."""
-        self.ui.print_message("\n\nOperation cancelled by user.", Colors.WARNING)
+        self.ui.print_message(
+            "\n\nOperation cancelled by user.", Colors.WARNING
+        )
         self.ui.print_message("Goodbye!", Colors.GREEN)
         sys.exit(0)
 
@@ -89,7 +91,11 @@ class App:
                 break
             elif choice == "1":
                 self._add_movie_manually()
-            elif choice == "2" and REQUESTS_AVAILABLE and movie_storage.get_api_key():
+            elif (
+                choice == "2"
+                and REQUESTS_AVAILABLE
+                and movie_storage.get_api_key()
+            ):
                 self._add_movie_from_omdb()
             elif choice == "3":
                 self._update_movie()
@@ -140,15 +146,21 @@ class App:
         try:
             title = self.ui.get_input("Enter movie title: ")
             if not title:
-                self.ui.print_message("Movie title cannot be empty.", Colors.ERROR)
+                self.ui.print_message(
+                    "Movie title cannot be empty.", Colors.ERROR
+                )
                 return
             rating = self.ui.get_rating_input("Enter movie rating (0-10): ")
             year = self.ui.get_year_input("Enter movie year: ")
-            success, message = self.manager.add_movie_manually(title, rating, year)
+            success, message = self.manager.add_movie_manually(
+                title, rating, year
+            )
             color = Colors.SUCCESS if success else Colors.ERROR
             self.ui.print_message(message, color)
         except KeyboardInterrupt:
-            self.ui.print_message("\nMovie addition cancelled.", Colors.WARNING)
+            self.ui.print_message(
+                "\nMovie addition cancelled.", Colors.WARNING
+            )
 
     def _add_movie_from_omdb(self):
         """Add a movie using data from OMDb."""
@@ -181,7 +193,9 @@ class App:
             self.ui.print_message(f"Movie '{title}' not found!", Colors.ERROR)
             return
 
-        field = self.ui.get_input("Enter field to update (year, rating): ").lower()
+        field = self.ui.get_input(
+            "Enter field to update (year, rating): "
+        ).lower()
         if field == "year":
             value = self.ui.get_year_input("Enter new year: ")
         elif field == "rating":
@@ -190,7 +204,9 @@ class App:
             self.ui.print_message("Invalid field.", Colors.ERROR)
             return
 
-        success, message = self.manager.update_movie_field(title, field, value)
+        success, message = self.manager.update_movie_field(
+            title, field, value
+        )
         self.ui.print_message(message, Colors.SUCCESS)
 
     def _show_stats(self):
@@ -254,7 +270,9 @@ class App:
 
     def _sort_by_year(self):
         """Sort movies by year."""
-        order = self.ui.get_input("Sort by latest or oldest first? (l/o): ").lower()
+        order = self.ui.get_input(
+            "Sort by latest or oldest first? (l/o): "
+        ).lower()
         reverse = order == "l"
         sorted_movies = self.manager.sort_movies("year", reverse)
         self.ui.display_movie_list(dict(sorted_movies))
