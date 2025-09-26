@@ -100,7 +100,7 @@ class MovieManager:
         return True, f"Movie '{title}' deleted."
 
     def update_movie_title(self, old_title, new_title):
-        """Update movie title if the new title is not already in use."""
+        """Update the movie title if the new title is not already in use."""
         if new_title in self.movies:
             return False, "Invalid or duplicate title."
         self.movies[new_title] = self.movies.pop(old_title)
@@ -242,12 +242,12 @@ class MovieManager:
         """Search for a movie online using the OMDb API.
 
         Args:
-            query: The movie title to search for
+            query (str): The movie title to search for
 
         Returns:
-            tuple: (movie_data, error_message) - If successful, movie_data is a
-                   dict containing movie details, otherwise error_message
-                   contains the error.
+            tuple: A tuple containing movie data and an error message.
+                   If successful, returns (dict, None). On error, returns
+                   (None, str).
         """
         if not REQUESTS_AVAILABLE:
             return None, "The 'requests' library is not installed."

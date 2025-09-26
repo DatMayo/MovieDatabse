@@ -1,32 +1,36 @@
 import os
 import textwrap
 
+
 class Colors:
     """ANSI color codes for terminal text formatting."""
-    HEADER = '\033[95m'
-    BLUE = '\033[94m'
-    CYAN = '\033[96m'
-    GREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-    INPUT = '\033[94m'  # Blue for user input
-    MENU = '\033[95m'   # Purple for menu
-    ERROR = '\033[91m'  # Red for errors
-    SUCCESS = '\033[92m' # Green for success messages
+
+    HEADER = "\033[95m"
+    BLUE = "\033[94m"
+    CYAN = "\033[96m"
+    GREEN = "\033[92m"
+    WARNING = "\033[93m"
+    FAIL = "\033[91m"
+    ENDC = "\033[0m"
+    BOLD = "\033[1m"
+    UNDERLINE = "\033[4m"
+    INPUT = "\033[94m"  # Blue for user input
+    MENU = "\033[95m"  # Purple for menu
+    ERROR = "\033[91m"  # Red for errors
+    SUCCESS = "\033[92m"  # Green for success messages
+
 
 class UserInterface:
     """Handles all user interface elements, including menus and input/output."""
 
     def __init__(self, requests_available, api_key_exists):
+        """Initializes the UserInterface."""
         self.requests_available = requests_available
         self.api_key_exists = api_key_exists
 
     def clear_screen(self):
         """Clear the screen using the appropriate command for the OS."""
-        os.system('cls' if os.name == 'nt' else 'clear')
+        os.system("cls" if os.name == "nt" else "clear")
 
     def display_main_menu(self):
         """Display the main menu options."""
@@ -127,12 +131,12 @@ class UserInterface:
         print(f"\n{Colors.HEADER}{index}. {title}{Colors.ENDC}")
         print(f"   {Colors.BOLD}Year:{Colors.ENDC} {data.get('year', 'N/A')}")
         print(f"   {Colors.BOLD}Rating:{Colors.ENDC} {data.get('rating', 'N/A'):.1f}")
-        if 'description' in data:
-            wrapped_description = textwrap.wrap(data['description'], width=80)
+        if "description" in data:
+            wrapped_description = textwrap.wrap(data["description"], width=80)
             print(f"   {Colors.BOLD}Description:{Colors.ENDC}")
             for line in wrapped_description:
                 print(f"     {line}")
-        if 'actors' in data:
+        if "actors" in data:
             print(f"   {Colors.BOLD}Actors:{Colors.ENDC} {', '.join(data['actors'])}")
 
     def display_movie_list(self, movies: dict):
@@ -149,28 +153,32 @@ class UserInterface:
 
         while True:
             self.clear_screen()
-            self.print_message(f"List of all movies (Page {current_page + 1}/{num_pages}):", Colors.CYAN)
+            self.print_message(
+                f"List of all movies (Page {current_page + 1}/{num_pages}):", Colors.CYAN
+            )
             start_index = current_page * page_size
             end_index = start_index + page_size
-            for i, (title, data) in enumerate(movie_list[start_index:end_index], start=start_index + 1):
+            for i, (title, data) in enumerate(
+                movie_list[start_index:end_index], start=start_index + 1
+            ):
                 self.display_movie_card(i, title, data)
 
             print("\n'n' for next page, 'p' for previous, 'q' to quit")
             choice = self.get_input("Enter choice: ").lower()
 
-            if choice == 'n':
+            if choice == "n":
                 if current_page < num_pages - 1:
                     current_page += 1
                 else:
                     self.print_message("You are on the last page.", Colors.WARNING)
                     self.press_enter_to_continue()
-            elif choice == 'p':
+            elif choice == "p":
                 if current_page > 0:
                     current_page -= 1
                 else:
                     self.print_message("You are on the first page.", Colors.WARNING)
                     self.press_enter_to_continue()
-            elif choice == 'q':
+            elif choice == "q":
                 break
             else:
                 self.print_message("Invalid choice.", Colors.ERROR)

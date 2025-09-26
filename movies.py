@@ -7,18 +7,20 @@ My Movies Database Application
 This is the main entry point for the My Movies Database application.
 
 It initializes the necessary components and runs the main application loop.
-The core logic is delegated to the [MovieManager](cci:2://file:///c:/Users/Mayo/PycharmProjects/pythonProject/school/T3W4/movie_manager.py:10:0-170:73) and [UserInterface](cci:2://file:///c:/Users/Mayo/PycharmProjects/pythonProject/school/T3W4/ui.py:19:0-176:46) classes
+The core logic is delegated to the MovieManager and UserInterface classes
 to maintain a clean and organized structure.
 """
 
-import sys
 import signal
-from ui import UserInterface, Colors
-from movie_manager import MovieManager
+import sys
+
 import movie_storage
+from movie_manager import MovieManager
+from ui import Colors, UserInterface
 
 try:
     import requests
+
     REQUESTS_AVAILABLE = True
 except ImportError:
     REQUESTS_AVAILABLE = False
@@ -28,6 +30,7 @@ class App:
     """The main application class that orchestrates the UI and movie management."""
 
     def __init__(self):
+        """Initializes the App."""
         api_key_exists = bool(movie_storage.get_api_key())
         self.ui = UserInterface(REQUESTS_AVAILABLE, api_key_exists)
         self.manager = MovieManager()
@@ -35,21 +38,21 @@ class App:
     def run(self):
         """Run the main application loop."""
         signal.signal(signal.SIGINT, self._signal_handler)
-        
+
         while True:
             self.ui.display_main_menu()
             choice = self.ui.get_input("Enter choice: ")
 
-            if choice == '0':
+            if choice == "0":
                 self.ui.print_message("\nGoodbye!", Colors.GREEN)
                 break
-            elif choice == '1':
+            elif choice == "1":
                 self._handle_display_movies_menu()
-            elif choice == '2':
+            elif choice == "2":
                 self._handle_edit_movies_menu()
-            elif choice == '3':
+            elif choice == "3":
                 self._handle_stats_menu()
-            elif choice == '4' and REQUESTS_AVAILABLE:
+            elif choice == "4" and REQUESTS_AVAILABLE:
                 self._handle_settings_menu()
             else:
                 self.ui.print_message("Invalid choice.", Colors.ERROR)
@@ -66,22 +69,22 @@ class App:
         while True:
             self.ui.display_movies_menu()
             choice = self.ui.get_input("Enter choice: ")
-            if choice == '0':
+            if choice == "0":
                 break
-            elif choice == '1':
+            elif choice == "1":
                 self.ui.display_movie_list(self.manager.get_all_movies())
-            elif choice == '2':
+            elif choice == "2":
                 self._search_movie()
-            elif choice == '3':
+            elif choice == "3":
                 self._filter_movies()
-            elif choice == '4':
-                sorted_movies = self.manager.sort_movies('rating')
+            elif choice == "4":
+                sorted_movies = self.manager.sort_movies("rating")
                 self.ui.display_movie_list(dict(sorted_movies))
-            elif choice == '5':
+            elif choice == "5":
                 self._sort_by_year()
             else:
                 self.ui.print_message("Invalid choice.", Colors.ERROR)
-            if choice != '1': # Pagination handles its own continuation
+            if choice != "1":  # Pagination handles its own continuation
                 self.ui.press_enter_to_continue()
 
     def _handle_edit_movies_menu(self):
@@ -89,15 +92,19 @@ class App:
         while True:
             self.ui.display_edit_menu()
             choice = self.ui.get_input("Enter choice: ")
-            if choice == '0':
+            if choice == "0":
                 break
-            elif choice == '1':
+            elif choice == "1":
                 self._add_movie_manually()
-            elif choice == '2' and REQUESTS_AVAILABLE and movie_storage.get_api_key():
+            elif (
+                choice == "2"
+                and REQUESTS_AVAILABLE
+                and movie_storage.get_api_key()
+            ):
                 self._add_movie_from_omdb()
-            elif choice == '3':
+            elif choice == "3":
                 self._update_movie()
-            elif choice == '4':
+            elif choice == "4":
                 self._delete_movie()
             else:
                 self.ui.print_message("Invalid choice.", Colors.ERROR)
@@ -108,11 +115,11 @@ class App:
         while True:
             self.ui.display_stats_menu()
             choice = self.ui.get_input("Enter choice: ")
-            if choice == '0':
+            if choice == "0":
                 break
-            elif choice == '1':
+            elif choice == "1":
                 self._show_stats()
-            elif choice == '2':
+            elif choice == "2":
                 self._random_movie()
             else:
                 self.ui.print_message("Invalid choice.", Colors.ERROR)
@@ -123,13 +130,13 @@ class App:
         while True:
             self.ui.display_settings_menu()
             choice = self.ui.get_input("Enter choice: ")
-            if choice == '0':
+            if choice == "0":
                 break
-            elif choice == '1':
+            elif choice == "1":
                 api_key = self.ui.get_input("Enter your OMDb API key: ")
                 movie_storage.save_api_key(api_key)
                 self.ui.print_message("API key saved.", Colors.SUCCESS)
-            elif choice == '2':
+            elif choice == "2":
                 api_key = movie_storage.get_api_key()
                 if api_key:
                     self.ui.print_message(f"Current API Key: {api_key}")
@@ -140,6 +147,7 @@ class App:
             self.ui.press_enter_to_continue()
 
     def _add_movie_manually(self):
+        """Add a movie to the database manually."""
         try:
             title = self.ui.get_input("Enter movie title: ")
             if not title:
@@ -154,6 +162,7 @@ class App:
             self.ui.print_message("\nMovie addition cancelled.", Colors.WARNING)
 
     def _add_movie_from_omdb(self):
+        """Add a movie using data from OMDb."""
         query = self.ui.get_input("Enter movie title to search online: ")
         if not query:
             self.ui.print_message("Please enter a search term.", Colors.ERROR)
@@ -163,68 +172,76 @@ class App:
         if error:
             self.ui.print_message(error, Colors.ERROR)
             return
-        
-        title = movie_data.get('Title')
+
+        title = movie_data.get("Title")
         success, message = self.manager.add_movie_from_omdb(title, movie_data)
         color = Colors.SUCCESS if success else Colors.ERROR
         self.ui.print_message(message, color)
 
     def _delete_movie(self):
+        """Delete a movie from the database."""
         title = self.ui.get_input("Enter movie title to delete: ")
         success, message = self.manager.delete_movie(title)
         color = Colors.SUCCESS if success else Colors.ERROR
         self.ui.print_message(message, color)
 
     def _update_movie(self):
+        """Update a movie's details."""
         title = self.ui.get_input("Enter movie title to update: ")
         if title not in self.manager.get_all_movies():
             self.ui.print_message(f"Movie '{title}' not found!", Colors.ERROR)
             return
 
-        # This part can be further developed into a full submenu in the UI class
         field = self.ui.get_input("Enter field to update (year, rating): ").lower()
-        if field == 'year':
+        if field == "year":
             value = self.ui.get_year_input("Enter new year: ")
-        elif field == 'rating':
+        elif field == "rating":
             value = self.ui.get_rating_input("Enter new rating: ")
         else:
             self.ui.print_message("Invalid field.", Colors.ERROR)
             return
-        
+
         success, message = self.manager.update_movie_field(title, field, value)
         self.ui.print_message(message, Colors.SUCCESS)
 
     def _show_stats(self):
+        """Display movie statistics."""
         stats = self.manager.get_stats()
         if not stats:
             self.ui.print_message("No movies in the database.", Colors.ERROR)
             return
-        
+
         self.ui.print_message("Movie Statistics:", Colors.CYAN)
         self.ui.print_message(f"Total movies: {stats['total_movies']}")
         self.ui.print_message(f"Average rating: {stats['avg_rating']:.1f}")
         self.ui.print_message(f"Median rating: {stats['median_rating']:.1f}")
-        
-        best_titles, max_rating = stats['best_movies']
-        worst_titles, min_rating = stats['worst_movies']
-        self.ui.print_message(f"Best movie(s): {', '.join(best_titles)} ({max_rating:.1f})")
-        self.ui.print_message(f"Worst movie(s): {', '.join(worst_titles)} ({min_rating:.1f})")
+
+        best_titles, max_rating = stats["best_movies"]
+        worst_titles, min_rating = stats["worst_movies"]
+        self.ui.print_message(
+            f"Best movie(s): {', '.join(best_titles)} ({max_rating:.1f})"
+        )
+        self.ui.print_message(
+            f"Worst movie(s): {', '.join(worst_titles)} ({min_rating:.1f})"
+        )
 
     def _random_movie(self):
+        """Display a random movie."""
         title, data = self.manager.get_random_movie()
         if not title:
             self.ui.print_message("No movies in the database.", Colors.ERROR)
             return
-        
+
         self.ui.print_message("Your random movie is:", Colors.GREEN)
         self.ui.display_movie_card(1, title, data)
 
     def _search_movie(self):
+        """Search for movies by a query."""
         query = self.ui.get_input("Enter search term (e.g., 'a:Tom Hanks'): ")
         if not query:
             self.ui.print_message("Please enter a search term.", Colors.ERROR)
             return
-        
+
         results = self.manager.search_movies(query)
         if results is None:
             self.ui.print_message("Invalid search format.", Colors.ERROR)
@@ -234,6 +251,7 @@ class App:
             self.ui.display_movie_list(dict(results))
 
     def _filter_movies(self):
+        """Filter movies by rating and year."""
         min_rating_str = self.ui.get_input("Min rating (optional): ")
         start_year_str = self.ui.get_input("Start year (optional): ")
         end_year_str = self.ui.get_input("End year (optional): ")
@@ -246,9 +264,10 @@ class App:
         self.ui.display_movie_list(results)
 
     def _sort_by_year(self):
+        """Sort movies by year."""
         order = self.ui.get_input("Sort by latest or oldest first? (l/o): ").lower()
-        reverse = order == 'l'
-        sorted_movies = self.manager.sort_movies('year', reverse)
+        reverse = order == "l"
+        sorted_movies = self.manager.sort_movies("year", reverse)
         self.ui.display_movie_list(dict(sorted_movies))
 
 

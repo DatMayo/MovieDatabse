@@ -1,5 +1,6 @@
 """Setup script for the Movie Database package."""
 
+import re
 from setuptools import setup, find_packages
 
 with open("README.md", "r", encoding="utf-8") as fh:
@@ -7,9 +8,9 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="moviedatabase",
-    version="0.1.0",  # Update this with each release
+    version=re.search(r'^__version__\s*=\s*"(.*)"', open('__init__.py').read(), re.M).group(1),
     author="DatMayo",
-    author_email="your.email@example.com",  # Update with your email
+    author_email="author@example.com",
     description="A movie database management system",
     long_description=long_description,
     long_description_content_type="text/markdown",

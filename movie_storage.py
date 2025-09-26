@@ -88,7 +88,7 @@ def update_movie(title, field, value):
     Args:
         title (str): The current title of the movie.
         field (str): The field to update ('title', 'year', 'rating', etc.).
-        value: The new value for the specified field.
+        value (any): The new value for the specified field.
     """
     movies = get_movies()
     if title in movies:
